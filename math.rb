@@ -117,7 +117,7 @@ class MathProgram
       print "The correct answer is, #{results[1]}.\n"
     end
     if res > 0
-      print "Don't worry, you will get better!"
+      print "Don't worry, you will get better!\n"
     end
     print "Thanks for playing! You rock!\n"
   end
