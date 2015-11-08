@@ -165,6 +165,7 @@ class MathProgram
     # Check for division and do special stuff
     if @math_type == '/'
       num = gets.chomp
+      num.gsub!(/ /,'')
       unless num =~ /\d(R|r)\d/
         num = num.to_i
       else
@@ -230,7 +231,7 @@ class MathProgram
         @incorrect << [prob[1], prob[2], answer]
       end
       @total += 1
-      if Time.now > @time + 10
+      if Time.now > @time + 60
         print "1 minute has expired!\n"
         print "How did you do?\n"
         sleep 2
