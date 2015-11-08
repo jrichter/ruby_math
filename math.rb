@@ -13,7 +13,11 @@ class MathGenerator
   def generate_numbers(num_high = @num_high)
     if @math_type == '/'
       first = rand(1..num_high)
-      second = rand(1..9)
+      if num_high < 9
+        second = rand(1..num_high)
+      else
+        second = rand(1..9)
+      end
     else
       first = rand(num_high)
       second = rand(num_high)
@@ -112,6 +116,7 @@ class MathProgram
     @math_type = ''
     @correct = 0
     @incorrect = [0]
+    @total = 0
     @time = Time.now
   end
 
@@ -160,8 +165,10 @@ class MathProgram
     # Check for division and do special stuff
     if @math_type == '/'
       num = gets.chomp
-      unless num =~ /\dR\d/
+      unless num =~ /\d(R|r)\d/
         num = num.to_i
+      else
+        num = num.upcase
       end
     else
       # Must not be division
@@ -180,7 +187,7 @@ class MathProgram
   end
 
   def display_results
-    print "Congratulations! You got #{@correct} correct!\n"
+    print "Congratulations! You got #{@correct} of #{@total} correct!\n"
     res = @incorrect[0]
     @incorrect.reverse!.pop
     @incorrect.each do |results|
@@ -197,6 +204,7 @@ class MathProgram
     res = gets.chomp
     if res == 'y'
       @correct = 0
+      @total = 0
       @incorrect = [0]
       play
     else
@@ -221,7 +229,8 @@ class MathProgram
         @incorrect[0] += 1
         @incorrect << [prob[1], prob[2], answer]
       end
-      if Time.now > @time + 60
+      @total += 1
+      if Time.now > @time + 10
         print "1 minute has expired!\n"
         print "How did you do?\n"
         sleep 2
