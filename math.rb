@@ -173,7 +173,6 @@ class MathProgram
         num = num.to_i
       end
     end
-    num
   end
 
   def start_timer
