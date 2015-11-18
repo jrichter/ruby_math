@@ -1,10 +1,9 @@
 # coding: utf-8
+
 # This is a simple math problem generator and interactive "timed game"
 #
 # Have Fun!
-
 class MathGenerator
-
   def initialize(num_high, math_type)
     @num_high = num_high
     @math_type = math_type # Addition or Subtraction
@@ -40,7 +39,7 @@ class MathGenerator
   def pp_div_problem(first, second)
     line_0 = "\n\n****\n"
     line_1 = "    ____\n"
-    line_2 = " #{second.to_s} | #{first.to_s} \n"
+    line_2 = " #{second} | #{first} \n"
     line_3 = "_____\n"
     line_0 + line_1 + line_2 + line_3
   end
@@ -50,7 +49,7 @@ class MathGenerator
     problem = "#{first} #{@math_type} #{second}"
     pp = pp_problem(first, second)
     answer = first + second
-    return [pp, problem, answer]
+    [pp, problem, answer]
   end
 
   def generate_subtraction_problem
@@ -58,7 +57,7 @@ class MathGenerator
     problem = "#{first} #{@math_type} #{second}"
     pp = pp_problem(first, second)
     answer = first - second
-    return [pp, problem, answer]
+    [pp, problem, answer]
   end
 
   def generate_multiplication_problem
@@ -66,7 +65,7 @@ class MathGenerator
     problem = "#{first} #{@math_type} #{second}"
     pp = pp_problem(first, second)
     answer = first * second
-    return [pp, problem, answer]
+    [pp, problem, answer]
   end
 
   def generate_division_problem
@@ -74,10 +73,10 @@ class MathGenerator
     # Can't divide by 0!
     answer = first / second
     remainder = first % second
-    answer = "#{answer.to_s}R#{remainder.to_s}" if remainder != 0
+    answer = "#{answer}R#{remainder}" if remainder != 0
     problem = "#{first} ÷ #{second}"
     pp = pp_div_problem(first, second)
-    return [pp, problem, answer]
+    [pp, problem, answer]
   end
 
   def generate_problem
@@ -150,11 +149,11 @@ class MathProgram
   def select_max_num
     print "What is the highest number you want to play with?\n"
     num = gets.chomp
-    unless num =~ /\d+/
+    if num =~ /\d+/
+      @num_high = num.to_i
+    else
       print "Oops! That wasn't a number!\n"
       select_max_num
-    else
-      @num_high = num.to_i
     end
   end
 
@@ -165,20 +164,20 @@ class MathProgram
     # Check for division and do special stuff
     if @math_type == '/'
       num = gets.chomp
-      num.gsub!(/ /,'')
-      unless num =~ /\d(R|r)\d/
-        num = num.to_i
-      else
+      num.gsub!(/ /, '')
+      if num =~ /\d(R|r)\d/
         num = num.upcase
+      else
+        num = num.to_i
       end
     else
       # Must not be division
       num = gets.chomp
-      unless num =~ /\d+/
+      if num =~ /\d+/
+        num = num.to_i
+      else
         print 'please enter a number as your answer'
         display_and_get_problem(prob)
-      else
-        num = num.to_i
       end
     end
   end
